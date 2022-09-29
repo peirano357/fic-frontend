@@ -1,25 +1,47 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useCallback, useEffect, useState } from "react";
+import { fetchRandomUser } from "./api/User";
+import "./styles/App.css";
+
+import { AppShell, Button, Navbar } from "@mantine/core";
 
 function App() {
+  const [userData, setUserData] = useState([]);
+
+  const loadUserData = useCallback(async () => {
+    setUserData(await fetchRandomUser());
+  }, []);
+
+  useEffect(() => {
+    loadUserData();
+    console.log(userData);
+  }, [loadUserData]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AppShell
+      navbar={
+        <Navbar width={{ base: 300 }} height="100vh">
+          <Navbar.Section>
+            <Button variant="subtle" fullWidth>
+              Assets/Hosts
+            </Button>
+          </Navbar.Section>
+
+          <Navbar.Section>
+            <Button variant="subtle" fullWidth>
+              Software
+            </Button>
+          </Navbar.Section>
+
+          <Navbar.Section>
+            <Button variant="subtle" fullWidth>
+              Configurations
+            </Button>
+          </Navbar.Section>
+        </Navbar>
+      }
+    >
+      {/* Your application here */}
+    </AppShell>
   );
 }
 
